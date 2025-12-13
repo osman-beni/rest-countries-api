@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./css/styles.css" />
+    <script src="./scripts/htmx.min.js"></script>
+    <script src="./scripts/alpine.min.js"></script>
+    <script src="./scripts/app.js"></script>
+    <title>Rest Countries API</title>
+  </head>
+  <body
+    :class="darkMode ? 'theme--dark' : 'theme--light'"
+    x-data="countriesApp()"
+    x-init="init()"
+  >
+    <header class="header">
+      <div class="header__container">
+        <h1 class="header__title" @click="backToList()" tabindex="0">
+          Where in the world?
+        </h1>
+        <button
+          class="header__toggle"
+          @click="toggleDarkMode()"
+          aria-label="Toggle Dark Mode"
+        >
+          <img
+            :src="darkMode ? './assets/images/dark-mode-moon-icon.svg' : './assets/images/light-mode-moon-icon.svg'"
+            alt=""
+          />
+          <span x-text="darkMode ? 'Light Mode' : 'Dark Mode'"></span>
+        </button>
+      </div>
+    </header>
+
+    <main class="main">
+      <div class="main__controls">
+        <!-- <div class="search-container">
+          <img
+            :src="darkMode ? './assets/images/dark-mode-search-icon.svg' : './assets/images/light-mode-search-icon.svg'"
+          />
+          <input
+            type="search"
+            class="search__input"
+            placeholder="Search for a country..."
+            x-model="search"
+            aria-label="Search for a country"
+          />
+        </div> -->
+        <div>
+          <input
+            type="text"
+            id="country-search"
+            name="q"
+            placeholder="Search countries..."
+            autocomplete="off"
+            hx-get="/search-countries"
+            hx-trigger="keyup changed delay:300ms"
+            hx-target="#search-results"
+            hx-swap="innerHTML"
+          />
+
+          <div id="search-results" class="autocomplete-list"></div>
+        </div>
+
+        <!-- Dropdown List -->
+        <select>
+          <template x-for="region in regions">
+            <option :value="region" x-text="region"></option>
+          </template>
+        </select>
+      </div>
+      <!-- COUNTRY LIST VIEW -->
+
+      <!-- <section
+        class="countries"
+        hx-get="/countries"
+        hx-trigger="revealed"
+      ></section> -->
+      <div>
+        <section
+          class="countries"
+          hx-get="/countries?page=1"
+          hx-trigger="revealed"
+          hx-swap="beforeend"
+          id="countries-container"
+        ></section>
+        <div class="btn-container" id="button-container"></div>
+        <!-- Countries & Load More go here -->
+      </div>
+
+      <!-- COUNTRY DETAILS VIEW -->
+      <!-- <template x-if="view === 'details'">
+        <section class="country-detail">
+          <button
+            @click="backToList()"
+            class="btn btn--back"
+            aria-label="Go back"
+          >
+            <span class="btn__icon" aria-hidden="true">←</span>
+            <span class="btn__text">Back</span>
+          </button>
+          <template x-if="!selectedCountry">
+            <p class="loading">Loading country details...</p>
+          </template>
+          <template x-if="selectedCountry">
+            <div class="country-detail__content">
+              <img
+                :src="selectedCountry.flags.svg"
+                :alt="selectedCountry.flags.alt || ('Flag of ' + selectedCountry.name.common)"
+                class="details__flag"
+              />
+              <
+
+              <div class="country-detail__info">
+                <h2
+                  class="country-detail__name"
+                  x-text="selectedCountry.name.common"
+                ></h2>
+
+                <ul class="country-detail__list">
+                  <li>
+                    <strong>Native Name:</strong>
+                    <span
+                      x-text="getNativeName(selectedCountry.name.nativeName)"
+                    ></span>
+                  </li>
+                  <li>
+                    <strong>Population:</strong>
+                    <span
+                      x-text="selectedCountry.population.toLocaleString()"
+                    ></span>
+                  </li>
+                  <li>
+                    <strong>Region:</strong>
+                    <span x-text="selectedCountry.region"></span>
+                  </li>
+                  <li>
+                    <strong>Sub Region:</strong>
+                    <span x-text="selectedCountry.subregion"></span>
+                  </li>
+                  <li>
+                    <strong>Capital:</strong>
+                    <span x-text="selectedCountry.capital?.[0] || '—'"></span>
+                  </li>
+                </ul>
+
+                <ul class="country-detail__list country-detail__list--bottom">
+                  <li>
+                    <strong>Top Level Domain:</strong>
+                    <span x-text="selectedCountry.tld?.join(', ')"></span>
+                  </li>
+                  <li>
+                    <strong>Currencies:</strong>
+                    <span
+                      x-text="getCurrencies(selectedCountry.currencies)"
+                    ></span>
+                  </li>
+                  <li>
+                    <strong>Languages:</strong>
+                    <span
+                      x-text="getLanguages(selectedCountry.languages)"
+                    ></span>
+                  </li>
+                </ul>
+
+                <div
+                  class="country-detail__borders"
+                  x-show="selectedCountry.borders?.length"
+                >
+                  <h3 class="country-detail__borders-title">
+                    Border Countries:
+                  </h3>
+                  <div class="country-detail__borders-list">
+                    <template
+                      x-for="code in selectedCountry.borders"
+                      :key="code"
+                    >
+                      <button
+                        @click="showBorderCountry(code)"
+                        class="country-detail__border"
+                      >
+                        <span x-text="getCountryName(code)"></span>
+                      </button>
+                    </template>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
+        </section>
+      </template> -->
+    </main>
+  </body>
+</html>
