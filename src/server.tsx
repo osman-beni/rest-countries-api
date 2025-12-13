@@ -43,7 +43,7 @@ function Country(country: CountryI) {
         </p>
         <p>
           <strong>Capital:</strong>
-          <span x-text="country.capital"></span>
+          <span>{country.capital}</span>
         </p>
       </div>
     </article>
@@ -52,8 +52,9 @@ function Country(country: CountryI) {
 
 function ResultCountry(country: CountryI) {
   return (
-    <li>
-      <img src={country.flags.svg} /> <span>{country.name.common}</span>
+    <li class="item">
+      <img src={country.flags.svg} width="40px" />{" "}
+      <span>{country.name.common}</span>
     </li>
   );
 }
@@ -62,23 +63,11 @@ const app = new Hono();
 
 app.use("/*", serveStatic({ root: "./public" }));
 
-// app.get("/countries", async (c) => {
-//   const response = await fetch(
-//     "https://restcountries.com/v3.1/all?fields=name,cca3,flags,region,population,capital"
-//   );
-//   const data = await response.json();
-
-//   return c.html(<>{data.map(Country)}</>);
-// });
-
 app.get("/countries", async (c) => {
   const page = parseInt(c.req.query("page") || "1", 10);
   const perPage = 30;
 
-  const response = await fetch(
-    "https://restcountries.com/v3.1/all?fields=name,cca3,flags,region,population,capital"
-  );
-  const data = await response.json();
+  const data = await loadCountries();
 
   // Slice the results for the current page
   const start = (page - 1) * perPage;
@@ -101,12 +90,7 @@ app.get("/countries", async (c) => {
           </button>
         )}
       </div>
-    </>,
-    {
-      headers: {
-        "Content-Type": "text/html",
-      },
-    }
+    </>
   );
 });
 
@@ -133,7 +117,11 @@ app.get("/search-countries", async (c) => {
 
     const results = data.map(ResultCountry);
 
-    return c.html(<>{results}</>);
+    return c.html(
+      <div id="search-results" class="search-results">
+        <ul class="list stack">{results}</ul>
+      </div>
+    );
   } catch (e) {
     return c.text(`<div>Error fetching data</div>`, 200, {
       "Content-Type": "text/html",

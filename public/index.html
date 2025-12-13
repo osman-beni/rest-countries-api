@@ -47,8 +47,9 @@
             aria-label="Search for a country"
           />
         </div> -->
-        <div>
+        <div class="search-container">
           <input
+            class="search-input"
             type="text"
             id="country-search"
             name="q"
@@ -56,11 +57,9 @@
             autocomplete="off"
             hx-get="/search-countries"
             hx-trigger="keyup changed delay:300ms"
-            hx-target="#search-results"
-            hx-swap="innerHTML"
+            hx-target="#venue"
           />
-
-          <div id="search-results" class="autocomplete-list"></div>
+          <div id="venue"></div>
         </div>
 
         <!-- Dropdown List -->
@@ -70,13 +69,7 @@
           </template>
         </select>
       </div>
-      <!-- COUNTRY LIST VIEW -->
 
-      <!-- <section
-        class="countries"
-        hx-get="/countries"
-        hx-trigger="revealed"
-      ></section> -->
       <div>
         <section
           class="countries"
