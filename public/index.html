@@ -35,6 +35,39 @@
 
     <main class="main">
       <div class="main__controls">
+        <div
+          class="search-container"
+          x-data="countrySearch()"
+          @click.outside="close()"
+        >
+          <input
+            type="text"
+            x-model="query"
+            @input.debounce.500ms="searchCountries()"
+            placeholder="Search for a country..."
+            class="w-full px-4 py-2 border rounded"
+          />
+
+          <!-- Loading indicator -->
+          <span x-show="loading" class="loading">Loading...</span>
+
+          <!-- Dropdown -->
+          <ul x-show="open && results.length > 0" class="dropdown">
+            <template x-for="country in results" :key="country.cca3">
+              <li @click="selectCountry(country)">
+                <span x-text="country.name.common"></span>
+              </li>
+            </template>
+          </ul>
+
+          <!-- No results -->
+          <div
+            x-show="open && !loading && noResults"
+            class="dropdown no-result"
+          >
+            No results found.
+          </div>
+        </div>
         <!-- <div class="search-container">
           <img
             :src="darkMode ? './assets/images/dark-mode-search-icon.svg' : './assets/images/light-mode-search-icon.svg'"
@@ -47,7 +80,8 @@
             aria-label="Search for a country"
           />
         </div> -->
-        <div class="search-container">
+        <!-- HTMX search results -->
+        <!-- <div class="search-container">
           <input
             class="search-input"
             type="text"
@@ -60,7 +94,7 @@
             hx-target="#venue"
           />
           <div id="venue"></div>
-        </div>
+        </div> -->
 
         <!-- Dropdown List -->
         <select>

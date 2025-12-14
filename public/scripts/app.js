@@ -71,3 +71,49 @@ function countriesApp() {
     },
   };
 }
+
+function countrySearch() {
+  return {
+    query: "",
+    loading: false,
+    results: [],
+    open: false,
+    noResults: false,
+    async searchCountries() {
+      if (!this.query.trim()) {
+        this.results = [];
+        this.open = false;
+        this.noResults = false;
+        return;
+      }
+      this.loading = true;
+      this.open = true;
+      try {
+        const response = await fetch(
+          `https://restcountries.com/v3.1/name/${this.query}`
+        );
+        const data = await response.json();
+        if (!Array.isArray(data) || data.status === 404) {
+          this.results = [];
+          this.noResults = true;
+        } else {
+          this.results = data;
+          this.noResults = data.length === 0;
+        }
+      } catch (err) {
+        this.results = [];
+        this.noResults = true;
+      } finally {
+        this.loading = false;
+      }
+    },
+    selectCountry(country) {
+      console.log("Selected country:", country.name.common);
+      this.query = country.name.common;
+      this.open = false;
+    },
+    close() {
+      this.open = false;
+    },
+  };
+}
