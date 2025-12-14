@@ -371,7 +371,6 @@ body {
 
 .country-card:focus,
 .country-card:hover {
-  transform: scale(1.03);
   outline: 2px solid var(--text);
 }
 
@@ -690,4 +689,56 @@ body {
 
 .stack > * + * {
   margin-top: var(--size-3);
+}
+
+@layer module {
+  .circle-spin-1 {
+    --size: 24px;
+    --stroke-width: calc(var(--size) / 6);
+    --color: currentColor;
+    --animation-timing-function: linear;
+    --animation-duration: 1s;
+    width: var(--size);
+    height: var(--size);
+    border-width: var(--stroke-width);
+    border-style: solid;
+    border-color: var(--color) var(--color) var(--color) transparent;
+    border-radius: 50%;
+    transform: rotate(0deg);
+    animation: var(--animation-timing-function) var(--animation-duration)
+      infinite circle-spin-1-animation;
+  }
+
+  @keyframes circle-spin-1-animation {
+    from {
+      transform: rotate(0deg);
+    }
+
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+@layer module {
+  .search-container {
+    position: relative;
+    max-width: 400px;
+  }
+
+  .search-container > .searchInput {
+    width: 100%;
+  }
+  .search-container > .dropdown {
+    list-style: none;
+    padding: var(--size-3);
+    padding-block-start: 0;
+    box-shadow: 0 2px 6px var(--shadow);
+    position: absolute;
+    background-color: var(--bg);
+    max-height: 200px;
+    overflow: auto;
+    right: 0;
+    left: 0;
+  }
 }

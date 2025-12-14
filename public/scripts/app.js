@@ -114,6 +114,7 @@ function countrySearch() {
     },
     close() {
       this.open = false;
+      this.results = [];
     },
   };
 }

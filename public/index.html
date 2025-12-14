@@ -45,16 +45,20 @@
             x-model="query"
             @input.debounce.500ms="searchCountries()"
             placeholder="Search for a country..."
-            class="w-full px-4 py-2 border rounded"
+            class="searchInput"
           />
 
           <!-- Loading indicator -->
-          <span x-show="loading" class="loading">Loading...</span>
+          <div x-show="loading" class="circle-spin-1"></div>
 
           <!-- Dropdown -->
-          <ul x-show="open && results.length > 0" class="dropdown">
+          <ul x-show="open && results.length > 0" class="dropdown stack">
             <template x-for="country in results" :key="country.cca3">
-              <li @click="selectCountry(country)">
+              <li
+                @click="selectCountry(country)"
+                style="display: flex; gap: 1rem"
+              >
+                <img :src="country.flags.svg" width="40px" />
                 <span x-text="country.name.common"></span>
               </li>
             </template>
