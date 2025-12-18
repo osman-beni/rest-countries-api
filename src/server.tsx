@@ -1,7 +1,10 @@
 import { Hono } from "hono";
 import { serveStatic } from "hono/bun";
+import { Home } from "./pages/Home";
+import { Layout } from "./layout/Main";
+import { CountryDetail } from "./pages/CountryDetail";
 
-type CountryI = {
+export type CountryI = {
   flags: { svg: string; alt: string };
   name: { common: string };
   cca3: string;
@@ -30,7 +33,7 @@ async function loadCountries() {
 function Country(country: CountryI) {
   const formattedPopulation = country.population.toLocaleString("en-US");
   return (
-    <article class="country-card">
+    <a class="country-card" href={"/countries/" + country.cca3}>
       <img src={country.flags.svg} class="country-card__flag" />
       <div class="country-card__body">
         <h2>{country.name.common}</h2>
@@ -46,22 +49,43 @@ function Country(country: CountryI) {
           <span>{country.capital}</span>
         </p>
       </div>
-    </article>
+    </a>
   );
 }
 
-function ResultCountry(country: CountryI) {
-  return (
-    <li class="item">
-      <img src={country.flags.svg} width="40px" />{" "}
-      <span>{country.name.common}</span>
-    </li>
-  );
+function findCountry(id: string) {
+  const data = countriesCache.find((c) => c.cca3 === id);
+  return data;
 }
 
 const app = new Hono();
 
 app.use("/*", serveStatic({ root: "./public" }));
+
+app.get("/", async (c) => {
+  const data = await loadCountries();
+  const countries = data.map(Country);
+
+  return c.html(
+    <Layout>
+      <Home children={countries} />
+    </Layout>
+  );
+});
+
+// function ResultCountry(country: CountryI) {
+//   return (
+//     <li class="item">
+//       <img src={country.flags.svg} width="40px" />{" "}
+//       <span>{country.name.common}</span>
+//     </li>
+//   );
+// }
+
+// const app = new Hono();
+
+// app.use("/*", serveStatic({ root: "./public" }));
+// // Apply JSX renderer with a layout
 
 app.get("/countries", async (c) => {
   const page = parseInt(c.req.query("page") || "1", 10);
@@ -94,39 +118,23 @@ app.get("/countries", async (c) => {
   );
 });
 
-app.get("/search-countries", async (c) => {
-  const query = c.req.query("q") || "";
+app.get("/countries/:id", async (c) => {
+  const id = c.req.param("id");
 
-  // If input is empty, return nothing
-  if (!query.trim()) {
-    return c.text("");
+  // Load cache if empty
+  await loadCountries();
+
+  const country = findCountry(id!);
+
+  if (!country) {
+    return c.text("Country not found", 404);
   }
 
-  try {
-    const url = `https://restcountries.com/v3.1/name/${encodeURIComponent(
-      query
-    )}`;
-    const res = await fetch(url);
-
-    // If failed or no results, just return a message
-    if (!res.ok) {
-      return c.html(<div>No results found</div>);
-    }
-
-    const data = await res.json();
-
-    const results = data.map(ResultCountry);
-
-    return c.html(
-      <div id="search-results" class="search-results">
-        <ul class="list stack">{results}</ul>
-      </div>
-    );
-  } catch (e) {
-    return c.text(`<div>Error fetching data</div>`, 200, {
-      "Content-Type": "text/html",
-    });
-  }
+  return c.html(
+    <Layout>
+      <CountryDetail country={country} />
+    </Layout>
+  );
 });
 
 export default app;

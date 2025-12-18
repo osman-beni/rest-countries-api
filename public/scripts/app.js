@@ -13,11 +13,6 @@ function countriesApp() {
 
     init() {
       this.darkMode = localStorage.getItem("theme") === "dark";
-      fetch(
-        "https://restcountries.com/v3.1/all?fields=name,cca3,flags,region,population,capital"
-      )
-        .then((res) => res.json())
-        .then((data) => (this.countries = data));
     },
 
     filteredCountries() {
