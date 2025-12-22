@@ -10,7 +10,7 @@ export const Home: FC = (props) => {
       ></section> */}
 
       <section
-        class="countries"
+        class="grid gap-3 sm:grid-cols-2 sm:gap-4 md:grid-cols-3 md:gap-8"
         hx-get="/countries?page=1"
         hx-trigger="revealed"
         hx-swap="beforeend"

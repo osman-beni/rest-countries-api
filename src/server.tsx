@@ -17,7 +17,7 @@ let countriesCache: CountryI[] = [];
 
 async function fetchCountries() {
   const response = await fetch(
-    "https://restcountries.com/v3.1/all?fields=name,cca3,flags,region,population,capital"
+    "https://restcountries.com/v3.1/all?fields=name,cca3,flags,region,population,capital",
   );
   const data: CountryI[] = await response.json();
   return data;
@@ -33,18 +33,21 @@ async function loadCountries() {
 function Country(country: CountryI) {
   const formattedPopulation = country.population.toLocaleString("en-US");
   return (
-    <a class="country-card" href={"/countries/" + country.cca3}>
-      <img src={country.flags.svg} class="country-card__flag" />
-      <div class="country-card__body">
-        <h2>{country.name.common}</h2>
-        <p>
+    <a
+      class="bg-white shadow rounded-sm overflow-hidden"
+      href={"/countries/" + country.cca3}
+    >
+      <img src={country.flags.svg} class="h-52 w-full object-cover" />
+      <div class="p-6">
+        <h2 class="text-xl font-bold">{country.name.common}</h2>
+        <p class="mt-3">
           <strong>Population:</strong>
           <span>{formattedPopulation}</span>
         </p>
-        <p>
+        <p class="mt-2">
           <strong>Region:</strong> <span>{country.region}</span>
         </p>
-        <p>
+        <p class="mt-2">
           <strong>Capital:</strong>
           <span>{country.capital}</span>
         </p>
@@ -69,7 +72,7 @@ app.get("/", async (c) => {
   return c.html(
     <Layout>
       <Home children={countries} />
-    </Layout>
+    </Layout>,
   );
 });
 
@@ -114,7 +117,7 @@ app.get("/countries", async (c) => {
           </button>
         )}
       </div>
-    </>
+    </>,
   );
 });
 
@@ -133,7 +136,7 @@ app.get("/countries/:id", async (c) => {
   return c.html(
     <Layout>
       <CountryDetail country={country} />
-    </Layout>
+    </Layout>,
   );
 });
 
