@@ -5,6 +5,7 @@ export const Layout = (props: { children: any }) => html`
   <html>
     <head>
       <meta charset="UTF-8" />
+      <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
       <link rel="stylesheet" href="/css/output.css" />
       <script src="/scripts/htmx.min.js"></script>
       <script src="/scripts/alpine.min.js"></script>
@@ -37,7 +38,32 @@ export const Layout = (props: { children: any }) => html`
         </div>
       </header>
       <div class="flex my-6 px-4 justify-between lg:p-0 max-w-6xl mx-auto">
-        <div
+        <div class="search-container">
+          <h3>Search Countries</h3>
+
+          <div style="position: relative; display: inline-block;">
+            <input
+              type="search"
+              name="q"
+              placeholder="Begin typing a country..."
+              hx-get="/search"
+              hx-trigger="input changed delay:500ms, search"
+              hx-target="#search-results"
+              hx-indicator="#loading-spinner"
+            />
+
+            <img
+              id="loading-spinner"
+              class="htmx-indicator"
+              src="/assets/images/oval.svg"
+              width="20"
+              style="position: absolute; right: 10px; top: 10px; background-color: black;"
+            />
+          </div>
+
+          <ul id="search-results"></ul>
+        </div>
+        <!--<div
           class="search-container"
           x-data="countrySearch()"
           x-on:click.outside="close()"
@@ -71,7 +97,7 @@ export const Layout = (props: { children: any }) => html`
           >
             No results found.
           </div>
-        </div>
+        </div>-->
         <select>
           <template x-for="region in regions">
             <option x-bind:value="region" x-text="region"></option>
