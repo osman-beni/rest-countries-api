@@ -94,8 +94,45 @@ app.get("/", async (c) => {
 // app.use("/*", serveStatic({ root: "./public" }));
 // // Apply JSX renderer with a layout
 
+// app.get("/countries", async (c) => {
+//   const page = parseInt(c.req.query("page") || "1", 10);
+//   const region = c.req.query("region") || "";
+//   const perPage = 30;
+
+//   const data = await loadCountries();
+
+//   // Slice the results for the current page
+//   const start = (page - 1) * perPage;
+//   const end = page * perPage;
+//   const filteredList = data.filter((country) =>
+//     region ? region.toLowerCase() == country.region.toLowerCase() : true,
+//   );
+
+//   const slice = filteredList.slice(start, end);
+
+//   return c.html(
+//     <>
+//       <>{slice.map(Country)}</>
+
+//       {/* Load More button (if there are more) */}
+//       <div class="btn-container" id="button-container" hx-swap-oob="true">
+//         {end < data.length && (
+//           <button
+//             hx-get={`/countries?page=${page + 1}&${region ? "region=" + region : ""}`}
+//             hx-target="#countries-container"
+//             hx-swap="beforeend"
+//           >
+//             Load More
+//           </button>
+//         )}
+//       </div>
+//     </>,
+//   );
+// });
+
 app.get("/countries", async (c) => {
   const page = parseInt(c.req.query("page") || "1", 10);
+  const region = c.req.query("region") || "";
   const perPage = 30;
 
   const data = await loadCountries();
@@ -103,17 +140,22 @@ app.get("/countries", async (c) => {
   // Slice the results for the current page
   const start = (page - 1) * perPage;
   const end = page * perPage;
-  const slice = data.slice(start, end);
+  const filteredList = data.filter((country) =>
+    region ? region.toLowerCase() == country.region.toLowerCase() : true,
+  );
 
-  return c.html(
+  const slice = filteredList.slice(start, end);
+
+  const isHTMX = c.req.header("HX-Request") === "true";
+
+  // This is the "Partial" HTML
+  const content = (
     <>
       <>{slice.map(Country)}</>
-
-      {/* Load More button (if there are more) */}
       <div class="btn-container" id="button-container" hx-swap-oob="true">
-        {end < data.length && (
+        {end < filteredList.length && (
           <button
-            hx-get={`/countries?page=${page + 1}`}
+            hx-get={`/countries?page=${page + 1}&${region ? "region=" + region : ""}`}
             hx-target="#countries-container"
             hx-swap="beforeend"
           >
@@ -121,8 +163,22 @@ app.get("/countries", async (c) => {
           </button>
         )}
       </div>
-    </>,
+    </>
   );
+
+  if (isHTMX) {
+    // If HTMX called it, just send the content
+    return c.html(content);
+  } else {
+    // If user REFRESHED, wrap the content in your full Layout
+    return c.html(
+      <Layout>
+        <Home>
+          <div id="countries-container">{content}</div>
+        </Home>
+      </Layout>,
+    );
+  }
 });
 
 app.get("/countries/:id", async (c) => {

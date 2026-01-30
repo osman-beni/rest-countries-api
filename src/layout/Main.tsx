@@ -64,16 +64,24 @@ export const Layout = (props: { children: any }) => html`
           <ul id="search-results"></ul>
         </div>
 
-        <select>
-          <option>All regions</option>
-          <option>Africa</option>
-          <option>Americas</option>
-          <option>Asia</option>
-          <option>Europe</option>
-          <option>Oceania</option>
+        <select
+          hx-get="/countries?page=1"
+          name="region"
+          hx-target=".home-grid"
+          hx-trigger="change"
+          hx-push-url="true"
+        >
+          <option value="">All regions</option>
+          <option value="africa">Africa</option>
+          <option value="americas">Americas</option>
+          <option value="asia">Asia</option>
+          <option value="europe">Europe</option>
+          <option value="oceania">Oceania</option>
         </select>
       </div>
-      <div class="bg-[#fafafa] max-w-6xl mx-auto">${props.children}</div>
+      <div class="bg-[#fafafa] max-w-6xl mx-auto select-filter">
+        ${props.children}
+      </div>
     </body>
   </html>
 `;

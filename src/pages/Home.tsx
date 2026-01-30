@@ -8,7 +8,6 @@ export const Home: FC = (props) => {
         hx-get="/countries"
         hx-trigger="revealed"
       ></section> */}
-
       <section
         class="home-grid"
         hx-get="/countries?page=1"
@@ -16,7 +15,7 @@ export const Home: FC = (props) => {
         hx-swap="beforeend"
         id="countries-container"
       ></section>
-      <div class="btn-container" id="button-container"></div>
+      {props.childen} <div class="btn-container" id="button-container"></div>
     </div>
   );
 };
