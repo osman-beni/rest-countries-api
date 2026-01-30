@@ -1,0 +1,20 @@
+.home-grid {
+    max-width: 1144px;
+    margin-inline: var(--size-3);
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--size-6);
+}
+
+@media screen and (width > 700px) {
+    .home-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media screen and (width > 1144px) {
+    .home-grid {
+        margin-inline: auto;
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}

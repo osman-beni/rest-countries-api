@@ -1,0 +1,18 @@
+.country-card {
+    background-color: var(--white-1);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow-2);
+    text-decoration: none;
+}
+
+.country-card > img {
+    height: 208px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.country-card > .details {
+    padding: var(--size-4);
+    color: var(--gray-4);
+}

@@ -1,0 +1,10 @@
+.theme-toggle {
+    display: flex;
+    line-height: 1;
+    align-items: center;
+    gap: var(--size-2);
+}
+
+.theme-toggle > img {
+    width: 20px;
+}

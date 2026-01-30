@@ -1,0 +1,10 @@
+main {
+    max-width: 1144px;
+    margin-inline: var(--size-3);
+}
+
+@media screen and (width > 1143px) {
+    main {
+        margin-inline: auto;
+    }
+}

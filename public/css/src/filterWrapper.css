@@ -1,0 +1,14 @@
+.filter-wrapper {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1144px;
+    margin-inline: var(--size-3);
+
+    align-items: last baseline;
+}
+
+@media screen and (width > 1144px) {
+    .filter-wrapper {
+        margin-inline: auto;
+    }
+}
