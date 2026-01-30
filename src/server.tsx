@@ -30,15 +30,19 @@ async function loadCountries() {
   return countriesCache;
 }
 
+loadCountries();
+
 function Country(country: CountryI) {
   const formattedPopulation = country.population.toLocaleString("en-US");
   return (
     <a
-      class="bg-white shadow rounded-sm overflow-hidden"
+      class="country-card"
       href={"/countries/" + country.cca3}
+      hx-boost="true"
+      hx-swap="innerHTML"
     >
       <img src={country.flags.svg} class="h-52 w-full object-cover" />
-      <div class="p-6">
+      <div class="details">
         <h2 class="text-xl font-bold">{country.name.common}</h2>
         <p class="mt-3">
           <strong>Population:</strong>
@@ -159,7 +163,11 @@ app.get("/search", (c) => {
   }
 
   const htmlList = results.map((country) => (
-    <a style="display: flex; gap: 1rem" href={"/countries/" + country.cca3}>
+    <a
+      style="display: flex; gap: 1rem"
+      href={"/countries/" + country.cca3}
+      hx-boost="true"
+    >
       <img src={country.flags.svg} width="40px" />
       <span>{country.name.common}</span>
     </a>
