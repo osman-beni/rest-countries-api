@@ -37,48 +37,7 @@ export const Layout = (props: { children: any }) => html`
           </button>
         </div>
       </header>
-      <div class="filter-wrapper">
-        <div class="search-container">
-          <h3>Search Countries</h3>
 
-          <div style="position: relative; display: inline-block;">
-            <input
-              type="search"
-              name="q"
-              placeholder="Begin typing a country..."
-              hx-get="/search"
-              hx-trigger="input changed delay:500ms, search"
-              hx-target="#search-results"
-              hx-indicator="#loading-spinner"
-            />
-
-            <img
-              id="loading-spinner"
-              class="htmx-indicator"
-              src="/assets/images/oval.svg"
-              width="20"
-              style="position: absolute; right: 10px; top: 10px; background-color: black;"
-            />
-          </div>
-
-          <ul id="search-results"></ul>
-        </div>
-
-        <select
-          hx-get="/countries?page=1"
-          name="region"
-          hx-target=".home-grid"
-          hx-trigger="change"
-          hx-push-url="true"
-        >
-          <option value="">All regions</option>
-          <option value="africa">Africa</option>
-          <option value="americas">Americas</option>
-          <option value="asia">Asia</option>
-          <option value="europe">Europe</option>
-          <option value="oceania">Oceania</option>
-        </select>
-      </div>
       <div class="bg-[#fafafa] max-w-6xl mx-auto select-filter">
         ${props.children}
       </div>
