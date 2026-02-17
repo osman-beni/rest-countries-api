@@ -3,6 +3,7 @@ import { serveStatic } from "hono/bun";
 import { Home } from "./pages/Home";
 import { Layout } from "./layout/Main";
 import { CountryDetail } from "./pages/CountryDetail";
+import { Header } from "./layout/Header";
 
 export type CountryI = {
   flags: { svg: string; alt: string };
@@ -80,56 +81,6 @@ app.get("/", async (c) => {
   );
 });
 
-// function ResultCountry(country: CountryI) {
-//   return (
-//     <li class="item">
-//       <img src={country.flags.svg} width="40px" />{" "}
-//       <span>{country.name.common}</span>
-//     </li>
-//   );
-// }
-
-// const app = new Hono();
-
-// app.use("/*", serveStatic({ root: "./public" }));
-// // Apply JSX renderer with a layout
-
-// app.get("/countries", async (c) => {
-//   const page = parseInt(c.req.query("page") || "1", 10);
-//   const region = c.req.query("region") || "";
-//   const perPage = 30;
-
-//   const data = await loadCountries();
-
-//   // Slice the results for the current page
-//   const start = (page - 1) * perPage;
-//   const end = page * perPage;
-//   const filteredList = data.filter((country) =>
-//     region ? region.toLowerCase() == country.region.toLowerCase() : true,
-//   );
-
-//   const slice = filteredList.slice(start, end);
-
-//   return c.html(
-//     <>
-//       <>{slice.map(Country)}</>
-
-//       {/* Load More button (if there are more) */}
-//       <div class="btn-container" id="button-container" hx-swap-oob="true">
-//         {end < data.length && (
-//           <button
-//             hx-get={`/countries?page=${page + 1}&${region ? "region=" + region : ""}`}
-//             hx-target="#countries-container"
-//             hx-swap="beforeend"
-//           >
-//             Load More
-//           </button>
-//         )}
-//       </div>
-//     </>,
-//   );
-// });
-
 app.get("/countries", async (c) => {
   const page = parseInt(c.req.query("page") || "1", 10);
   const region = c.req.query("region") || "";
@@ -173,8 +124,9 @@ app.get("/countries", async (c) => {
     // If user REFRESHED, wrap the content in your full Layout
     return c.html(
       <Layout>
-        <Home>
-          <div id="countries-container">{content}</div>
+        <Header selectedRegion={region} />
+        <Home regionSelected={region}>
+          <>{content}</>
         </Home>
       </Layout>,
     );
