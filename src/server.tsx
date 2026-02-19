@@ -77,7 +77,7 @@ app.get("/", async (c) => {
   return c.html(
     <Layout>
       <Header show={true} />
-      <Home children={countries} />
+      <Home />
     </Layout>,
   );
 });
