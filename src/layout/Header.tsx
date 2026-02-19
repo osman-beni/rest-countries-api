@@ -1,6 +1,8 @@
 import type { FC } from "hono/jsx";
 
-export const Header: FC<{ selectedRegion: string }> = (props) => {
+export const Header: FC<{ selectedRegion?: string | null; show?: boolean }> = (
+  props,
+) => {
   const regions = ["", "africa", "asia", "europe", "oceania", "americas"];
   return (
     <div class="filter-wrapper">
@@ -30,21 +32,23 @@ export const Header: FC<{ selectedRegion: string }> = (props) => {
         <ul id="search-results"></ul>
       </div>
 
-      <select
-        hx-get="/countries?page=1"
-        name="region"
-        hx-target=".home-grid"
-        hx-trigger="change"
-        hx-push-url="true"
-      >
-        {regions.map((region) => (
-          <option value={region} selected={region === props.selectedRegion}>
-            {region === ""
-              ? "All regions"
-              : region[0].toUpperCase() + region.slice(1)}
-          </option>
-        ))}
-      </select>
+      {props.show && (
+        <select
+          hx-get="/countries?page=1"
+          name="region"
+          hx-target=".home-grid"
+          hx-trigger="change"
+          hx-push-url="true"
+        >
+          {regions.map((region) => (
+            <option value={region} selected={region === props.selectedRegion}>
+              {region === ""
+                ? "All regions"
+                : region[0].toUpperCase() + region.slice(1)}
+            </option>
+          ))}
+        </select>
+      )}
     </div>
   );
 };

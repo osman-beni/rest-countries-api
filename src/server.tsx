@@ -76,6 +76,7 @@ app.get("/", async (c) => {
 
   return c.html(
     <Layout>
+      <Header show={true} />
       <Home children={countries} />
     </Layout>,
   );
@@ -124,7 +125,7 @@ app.get("/countries", async (c) => {
     // If user REFRESHED, wrap the content in your full Layout
     return c.html(
       <Layout>
-        <Header selectedRegion={region} />
+        <Header selectedRegion={region} show={true} />
         <Home regionSelected={region}>
           <>{content}</>
         </Home>
@@ -147,6 +148,7 @@ app.get("/countries/:id", async (c) => {
 
   return c.html(
     <Layout>
+      <Header show={false} />
       <CountryDetail country={country} />
     </Layout>,
   );
