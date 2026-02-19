@@ -12,6 +12,7 @@ export const Home: FC = (props) => {
     <div>
       <section class="home-grid" id="countries-container" {...delegated}>
         {/* FIX: Put the children INSIDE the container so they show up on refresh */}
+        {props.children}
       </section>
 
       <div class="btn-container" id="button-container"></div>
