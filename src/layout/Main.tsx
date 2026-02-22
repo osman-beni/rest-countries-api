@@ -5,8 +5,6 @@ export const Layout = (props: { children: any }) => html`
   <html>
     <head>
       <meta charset="UTF-8" />
-      <!--<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>-->
-      <!--<link rel="stylesheet" href="/css/output.css" />-->
       <script src="/scripts/htmx.min.js"></script>
       <script src="/scripts/alpine.min.js"></script>
       <script src="/scripts/app.js"></script>

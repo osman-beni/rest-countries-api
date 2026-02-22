@@ -54,6 +54,7 @@ function Country(country: CountryI) {
         </p>
         <p class="mt-2">
           <strong>Capital:</strong>
+
           <span>{country.capital}</span>
         </p>
       </div>
@@ -173,14 +174,12 @@ app.get("/search", (c) => {
   }
 
   const htmlList = results.map((country) => (
-    <a
-      style="display: flex; gap: 1rem"
-      href={"/countries/" + country.cca3}
-      hx-boost="true"
-    >
-      <img src={country.flags.svg} width="40px" />
-      <span>{country.name.common}</span>
-    </a>
+    <li>
+      <a href={"/countries/" + country.cca3} hx-boost="true">
+        <img src={country.flags.svg} width="40px" />
+        <span>{country.name.common}</span>
+      </a>
+    </li>
   ));
   return c.html(<>{htmlList}</>);
 });

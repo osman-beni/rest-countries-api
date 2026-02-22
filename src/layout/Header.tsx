@@ -7,7 +7,7 @@ export const Header: FC<{ selectedRegion?: string | null; show?: boolean }> = (
   return (
     <div class="filter-wrapper">
       <div class="search-container">
-        <h3>Search Countries</h3>
+        <img src="/assets/images/light-mode-search-icon.svg" alt="" />
 
         <div style="position: relative; display: inline-block;">
           <input
@@ -16,7 +16,7 @@ export const Header: FC<{ selectedRegion?: string | null; show?: boolean }> = (
             placeholder="Begin typing a country..."
             hx-get="/search"
             hx-trigger="input changed delay:500ms, search"
-            hx-target="#search-results"
+            hx-target="#results"
             hx-indicator="#loading-spinner"
           />
 
@@ -29,7 +29,7 @@ export const Header: FC<{ selectedRegion?: string | null; show?: boolean }> = (
           />
         </div>
 
-        <ul id="search-results"></ul>
+        <ul class="results" id="results"></ul>
       </div>
 
       {props.show && (
@@ -39,6 +39,7 @@ export const Header: FC<{ selectedRegion?: string | null; show?: boolean }> = (
           hx-target=".home-grid"
           hx-trigger="change"
           hx-push-url="true"
+          class="region-select"
         >
           {regions.map((region) => (
             <option value={region} selected={region === props.selectedRegion}>
