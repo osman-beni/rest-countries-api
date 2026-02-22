@@ -36,12 +36,7 @@ loadCountries();
 function Country(country: CountryI) {
   const formattedPopulation = country.population.toLocaleString("en-US");
   return (
-    <a
-      class="country-card"
-      href={"/countries/" + country.cca3}
-      hx-boost="true"
-      hx-swap="innerHTML"
-    >
+    <a class="country-card" href={"/countries/" + country.cca3}>
       <img src={country.flags.svg} class="h-52 w-full object-cover" />
       <div class="details">
         <h2 class="text-xl font-bold">{country.name.common}</h2>
@@ -137,6 +132,13 @@ app.get("/countries", async (c) => {
 
 app.get("/countries/:id", async (c) => {
   const id = c.req.param("id");
+  const response = await fetch("https://restcountries.com/v3.1/alpha/" + id);
+  const data = await response.json();
+  console.log(data);
+
+  const borderTowns = countriesCache.filter((country) =>
+    data[0].borders.includes(country.cca3),
+  );
 
   // Load cache if empty
   await loadCountries();
@@ -150,7 +152,7 @@ app.get("/countries/:id", async (c) => {
   return c.html(
     <Layout>
       <Header show={false} />
-      <CountryDetail country={country} />
+      <CountryDetail country={data[0]} borderTowns={borderTowns} />
     </Layout>,
   );
 });
@@ -175,7 +177,7 @@ app.get("/search", (c) => {
 
   const htmlList = results.map((country) => (
     <li>
-      <a href={"/countries/" + country.cca3} hx-boost="true">
+      <a href={"/countries/" + country.cca3}>
         <img src={country.flags.svg} width="40px" />
         <span>{country.name.common}</span>
       </a>
