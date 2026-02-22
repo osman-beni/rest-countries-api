@@ -1,16 +1,46 @@
-window.addEventListener("pageshow", (event) => {
-  // event.persisted is true if the page was restored from bfcache
-  if (event.persisted) {
-    console.log("working");
-    const theme = localStorage.getItem("theme") || "light";
+function setupTheme() {
+  const themeToggler = document.querySelector(".theme-toggle");
+  const themeImage = document.querySelector(".theme-image");
+  const themeBtnText = themeToggler.querySelector("span");
 
-    // If you use a class on the html element:
-    if (theme === "dark") {
-      document.body.classList.add("theme--dark");
-      document.body.classList.remove("theme--light");
+  function toggleTheme() {
+    const theme = localStorage.getItem("theme");
+
+    if (theme === null || theme === "light") {
+      localStorage.setItem("theme", "dark");
+      initTheme();
     } else {
-      document.body.classList.add("theme--light");
-      document.body.classList.remove("theme--dark");
+      localStorage.setItem("theme", "light");
+      initTheme();
     }
   }
-});
+
+  function initTheme() {
+    const theme = localStorage.getItem("theme");
+
+    if (theme === null || theme === "light") {
+      document.body.classList.add("theme-light");
+      document.body.classList.remove("theme-dark");
+      themeBtnText.textContent = "Dark Mode";
+      themeImage.src = "/assets/images/light-mode-moon-icon.svg";
+    } else {
+      document.body.classList.add("theme-dark");
+      document.body.classList.remove("theme-light");
+      themeBtnText.textContent = "Light Mode";
+      themeImage.src = "/assets/images/dark-mode-moon-icon.svg";
+    }
+  }
+  // On Load
+  initTheme();
+
+  // Event Listeners
+  themeToggler.removeEventListener("click", toggleTheme);
+  themeToggler.addEventListener("click", toggleTheme);
+
+  window.addEventListener("pageshow", initTheme);
+}
+
+setupTheme();
+
+// 2. Run every time HTMX swaps (changes) content
+document.addEventListener("htmx:afterSwap", setupTheme);
