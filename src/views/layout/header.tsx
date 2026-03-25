@@ -32,24 +32,22 @@ export const Header: FC<{ selectedRegion?: string | null; show?: boolean }> = (
         <ul class="results" id="results"></ul>
       </div>
 
-      {props.show && (
-        <select
-          hx-get="/countries?page=1"
-          name="region"
-          hx-target=".home-grid"
-          hx-trigger="change"
-          hx-push-url="true"
-          class="region-select"
-        >
-          {regions.map((region) => (
-            <option value={region} selected={region === props.selectedRegion}>
-              {region === ""
-                ? "All regions"
-                : region[0].toUpperCase() + region.slice(1)}
-            </option>
-          ))}
-        </select>
-      )}
+      <select
+        hx-get="/countries?page=1"
+        name="region"
+        hx-target=".home-grid"
+        hx-trigger="change"
+        hx-push-url="true"
+        class="region-select"
+      >
+        {regions.map((region) => (
+          <option value={region} selected={region === props.selectedRegion}>
+            {region === ""
+              ? "All regions"
+              : region[0].toUpperCase() + region.slice(1)}
+          </option>
+        ))}
+      </select>
     </div>
   );
 };

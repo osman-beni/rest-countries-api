@@ -1,46 +1,33 @@
-function setupTheme() {
-  const themeToggler = document.querySelector(".theme-toggle");
-  const themeImage = document.querySelector(".theme-image");
-  const themeBtnText = themeToggler.querySelector("span");
+function init() {
+  var themeToggleBtn = document.querySelector(".theme-toggle");
 
-  function toggleTheme() {
-    const theme = localStorage.getItem("theme");
+  themeToggleBtn.addEventListener("click", () => {
+    var pageIsDarkMode = document.body.classList.contains("dark");
 
-    if (theme === null || theme === "light") {
-      localStorage.setItem("theme", "dark");
-      initTheme();
-    } else {
+    if (pageIsDarkMode) {
+      document.body.classList.remove("dark");
       localStorage.setItem("theme", "light");
-      initTheme();
-    }
-  }
-
-  function initTheme() {
-    const theme = localStorage.getItem("theme");
-
-    if (theme === null || theme === "light") {
-      document.body.classList.add("theme-light");
-      document.body.classList.remove("theme-dark");
-      themeBtnText.textContent = "Dark Mode";
-      themeImage.src = "/assets/images/light-mode-moon-icon.svg";
     } else {
-      document.body.classList.add("theme-dark");
-      document.body.classList.remove("theme-light");
-      themeBtnText.textContent = "Light Mode";
-      themeImage.src = "/assets/images/dark-mode-moon-icon.svg";
+      document.body.classList.add("dark");
+      localStorage.setItem("theme", "dark");
     }
+  });
+
+  var userPrefersDarkMode = matchMedia("(prefers-color-scheme: dark)").matches;
+
+  if (userPrefersDarkMode) {
+    document.body.classList.add("dark");
+  } else {
+    document.body.classList.remove("dark");
   }
-  // On Load
-  initTheme();
 
-  // Event Listeners
-  themeToggler.removeEventListener("click", toggleTheme);
-  themeToggler.addEventListener("click", toggleTheme);
+  var savedTheme = localStorage.getItem("theme");
 
-  window.addEventListener("pageshow", initTheme);
+  if (savedTheme === "dark") {
+    document.body.classList.add("dark");
+  } else if (savedTheme === "light") {
+    document.body.classList.remove("dark");
+  }
 }
 
-setupTheme();
-
-// 2. Run every time HTMX swaps (changes) content
-document.addEventListener("htmx:afterSwap", setupTheme);
+init();

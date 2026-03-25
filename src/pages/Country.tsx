@@ -1,6 +1,11 @@
 import type { FC } from "hono/jsx";
+import { BorderCountryPill } from "../views/components/BorderTownPill";
+import { getCurrencies, getLanguages } from "../lib/country";
+import { Country } from "../types/countries";
 
-export const CountryDetail: FC = (props) => {
+export const CountryDetail: FC<{ country: Country; children: any }> = (
+  props,
+) => {
   return (
     <main class="main">
       <section class="country-detail">
@@ -46,7 +51,7 @@ export const CountryDetail: FC = (props) => {
               <li>
                 <strong>Currencies:</strong>
                 <ul>
-                  {Object.values(props.country.currencies).map((currency) => (
+                  {getCurrencies(props.country).map((currency) => (
                     <li>{currency.name}</li>
                   ))}
                 </ul>
@@ -54,19 +59,13 @@ export const CountryDetail: FC = (props) => {
               <li>
                 <strong>Languages:</strong>
                 <ul>
-                  {Object.values(props.country.languages).map((lang) => (
+                  {getLanguages(props.country).map((lang) => (
                     <li>{lang}</li>
                   ))}
                 </ul>
               </li>
             </ul>
-
-            <h2>Border Countries</h2>
-            <ul>
-              {props.borderTowns.map((bTown) => (
-                <a href={"/countries/" + bTown.cca3}>{bTown.name.common}</a>
-              ))}
-            </ul>
+            {props.children}
           </div>
         </div>
       </section>

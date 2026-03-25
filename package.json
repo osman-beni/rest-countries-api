@@ -1,9 +1,17 @@
 {
   "name": "rest-countries-api-hono",
+   "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "types": ["bun"]
+  },
   "scripts": {
-    "dev": "bun run --hot src/server.tsx"
+    "dev": "bun run --hot src/server/server.tsx"
   },
   "dependencies": {
+    "@yusifaliyevpro/countries": "^2.3.0",
     "hono": "^4.10.7"
   },
   "devDependencies": {
