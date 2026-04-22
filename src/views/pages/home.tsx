@@ -1,10 +1,9 @@
 import type { FC } from "hono/jsx";
-import { Layout } from "../layout/Main";
-import { Header } from "../layout/Header";
+import { Header } from "../layout/header";
 
 export const Home: FC<{ children: any }> = (props) => {
   return (
-    <Layout>
+    <>
       <Header />
       <div>
         <section class="home-grid" id="countries-container">
@@ -14,6 +13,6 @@ export const Home: FC<{ children: any }> = (props) => {
           <button>Load More</button>
         </div>
       </div>
-    </Layout>
+    </>
   );
 };
