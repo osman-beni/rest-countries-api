@@ -1,25 +1,21 @@
 import { Hono } from "hono";
-import {
-  fetchCountries,
-  fetchCountry,
-  getBorderCountries,
-  countriesCache,
-} from "../../lib/country";
 import Country from "../../views/components/Country";
 import { Home } from "../../views/pages/home";
-import { CountriesResponse, CountryResponse } from "../../types/countries";
 import { BorderCountryPill } from "../../views/components/BorderTownPill";
-import { Layout } from "../../views/layout/Main";
-import { Header } from "../../views/layout/Header";
+import { Header } from "../../views/layout/header";
 import { CountryDetail } from "../../pages/Country";
+import data from "../../../data";
 
 const countries = new Hono();
 
-countries.get("/", async (c) => {
-  const data = countriesCache ?? (await fetchCountries());
-  const countries = data.map(Country);
-  console.log(countries);
-  return c.html(<Home>{countries}</Home>);
+countries.get("/", (c) => {
+  const places = data.map((d) => <li>{d.name}</li>);
+  return c.render(
+    <>
+      <Header />
+      <ol>{places}</ol>
+    </>,
+  );
 });
 
 // countries.get("/countries", async (c) => {
@@ -76,17 +72,8 @@ countries.get("/", async (c) => {
 
 countries.get("/:id", async (c) => {
   const id = c.req.param("id");
-  const country = await fetchCountry(id);
-  const borderCountries = await getBorderCountries(country.borders);
 
-  return c.html(
-    <Layout>
-      <Header />
-      <CountryDetail country={country}>
-        <BorderCountryPill borderCountries={borderCountries} />
-      </CountryDetail>
-    </Layout>,
-  );
+  return c.json(data.find((d) => d.alpha3Code === id));
 });
 
 export default countries;
