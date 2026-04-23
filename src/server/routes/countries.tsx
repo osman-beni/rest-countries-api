@@ -4,18 +4,13 @@ import { Home } from "../../views/pages/home";
 import { BorderCountryPill } from "../../views/components/BorderTownPill";
 import { Header } from "../../views/layout/header";
 import { CountryDetail } from "../../pages/Country";
-import data from "../../../data";
+import data from "../../../data.json";
 
 const countries = new Hono();
 
 countries.get("/", (c) => {
   const places = data.map((d) => <li>{d.name}</li>);
-  return c.render(
-    <>
-      <Header />
-      <ol>{places}</ol>
-    </>,
-  );
+  return c.render(<></>);
 });
 
 // countries.get("/countries", async (c) => {

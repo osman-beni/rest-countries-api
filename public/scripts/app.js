@@ -29,7 +29,7 @@ function countriesApp() {
       this.selectedCountry = null;
 
       const response = await fetch(
-        `https://restcountries.com/v3.1/alpha/${country.cca3}?fields=name,flags,population,region,subregion,capital,tld,currencies,languages,borders`
+        `https://restcountries.com/v3.1/alpha/${country.cca3}?fields=name,flags,population,region,subregion,capital,tld,currencies,languages,borders`,
       );
       const data = await response.json();
 
@@ -38,7 +38,7 @@ function countriesApp() {
 
     async showBorderCountry(code) {
       const res = await fetch(
-        `https://restcountries.com/v3.1/alpha/${code}?fields=name,cca3,flags,population,region,subregion,capital,tld,currencies,languages,borders`
+        `https://restcountries.com/v3.1/alpha/${code}?fields=name,cca3,flags,population,region,subregion,capital,tld,currencies,languages,borders`,
       );
       const data = await res.json();
       this.selectedCountry = data[0] || data;
@@ -85,7 +85,7 @@ function countrySearch() {
       this.open = true;
       try {
         const response = await fetch(
-          `https://restcountries.com/v3.1/name/${this.query}`
+          `https://restcountries.com/v3.1/name/${this.query}`,
         );
         const data = await response.json();
         if (!Array.isArray(data) || data.status === 404) {
