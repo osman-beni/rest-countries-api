@@ -1,5 +1,10 @@
 {
-    "cSpell.words": [
-        "yusifaliyevpro"
-    ]
+  "cssvar.files": [
+    "./node_modules/open-props/open-props.min.css",
+    "./public/css/open-props.min.css"
+  ],
+
+  "cssvar.ignore": [],
+
+  "cssvar.extensions": ["css", "postcss", "jsx", "tsx"]
 }
