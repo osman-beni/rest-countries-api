@@ -1,6 +1,7 @@
 import { jsxRenderer } from "hono/jsx-renderer";
 import { css, Style } from "hono/css";
 import ThemeToggle from "../components/ThemeToggle";
+import SearchInput from "../components/SearchInput";
 
 export const Layout = jsxRenderer(({ children }) => {
   const globalClass = css`
@@ -18,6 +19,7 @@ export const Layout = jsxRenderer(({ children }) => {
     <html x-data="theme" x-bind:class="!light && 'dark'">
       <head>
         <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-with, initial-scale=1.0" />
         <script src="/scripts/htmx.min.js"></script>
         <script defer src="/scripts/persist.min.js"></script>
         <script defer src="/scripts/alpine.min.js"></script>
@@ -27,7 +29,7 @@ export const Layout = jsxRenderer(({ children }) => {
         <Style />
       </head>
       <body class={globalClass}>
-        <ThemeToggle />
+        <SearchInput />
 
         <div>{children}</div>
         <script src="/scripts/theme.js"></script>

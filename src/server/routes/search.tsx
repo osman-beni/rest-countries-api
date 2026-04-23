@@ -1,8 +1,11 @@
 import { Hono } from "hono";
+import data from "../../../data.json";
+import SearchListItem from "../../views/components/SearchListItem";
+import SearchNoneItems from "../../views/components/SearchNoneItems";
 
 const search = new Hono();
 
-search.get("/search", (c) => {
+search.get("/", (c) => {
   // 1. Get the query string value for 'q'
   const query = c.req.query("q") || "";
 
@@ -11,22 +14,17 @@ search.get("/search", (c) => {
   }
 
   // 2. Filter your country list (logic example)
-  const results = countriesCache.filter((country) =>
-    country.name.common.toLowerCase().includes(query.trim().toLowerCase()),
+  const results = data.filter((country) =>
+    country.name.toLowerCase().includes(query.trim().toLowerCase()),
   );
 
   // 3. Return a fragment of HTML (important for htmx!)
   if (results.length === 0) {
-    return c.html(<li>No countries found</li>);
+    return c.html(<SearchNoneItems />);
   }
 
   const htmlList = results.map((country) => (
-    <li>
-      <a href={"/countries/" + country.cca3}>
-        <img src={country.flags.svg} width="40px" />
-        <span>{country.name.common}</span>
-      </a>
-    </li>
+    <SearchListItem alpha3Code={country.alpha3Code} name={country.name} />
   ));
   return c.html(<>{htmlList}</>);
 });

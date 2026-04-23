@@ -9,8 +9,8 @@ const app = new Hono();
 app.use("/*", serveStatic({ root: "./public" }));
 app.use("/*", Layout);
 
-app.route("/", countries);
 app.route("/search", search);
+app.route("/", countries);
 
 export default {
   port: 5173,
