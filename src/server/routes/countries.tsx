@@ -5,12 +5,25 @@ import { BorderCountryPill } from "../../views/components/BorderTownPill";
 import { Header } from "../../views/layout/header";
 import { CountryDetail } from "../../pages/Country";
 import data from "../../../data.json";
+import SelectRegion from "../../views/components/SelectRegion";
 
 const countries = new Hono();
 
 countries.get("/", (c) => {
-  const places = data.map((d) => <li>{d.name}</li>);
-  return c.render(<></>);
+  const link = c.req.url;
+  const region = c.req.query("q");
+  const filteredList = data.filter((country) =>
+    region ? region.toLowerCase() == country.region.toLowerCase() : true,
+  );
+
+  const places = filteredList.map((d) => <li>{d.name}</li>);
+
+  return c.render(
+    <>
+      <SelectRegion selectedRegion={link} />
+      {places}
+    </>,
+  );
 });
 
 // countries.get("/countries", async (c) => {

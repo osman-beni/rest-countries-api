@@ -29,8 +29,6 @@ export const Layout = jsxRenderer(({ children }) => {
         <Style />
       </head>
       <body class={globalClass}>
-        <SearchInput />
-
         <div>{children}</div>
         <script src="/scripts/theme.js"></script>
       </body>
