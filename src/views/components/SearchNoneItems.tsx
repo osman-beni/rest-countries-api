@@ -6,6 +6,10 @@ const SearchNoneItems = () => {
     padding-block: var(--size-3);
     display: block;
     padding-inline: var(--size-4);
+
+    .dark & {
+      color: var(--gray-0);
+    }
   `;
   return <li class={listItem}>No countries found</li>;
 };

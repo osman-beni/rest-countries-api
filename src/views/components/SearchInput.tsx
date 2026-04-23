@@ -9,12 +9,15 @@ const SearchInput: FC = () => {
   const label = css`
     background-color: var(--gray-0);
     box-shadow: var(--shadow-2);
-
     display: flex;
     padding-inline: var(--size-4);
     height: var(--size-8);
     gap: var(--size-3);
     border-radius: var(--radius-2);
+
+    .dark & {
+      background-color: var(--gray-8);
+    }
   `;
 
   const searchIcon = css`
@@ -25,6 +28,11 @@ const SearchInput: FC = () => {
     width: 100%;
     background-color: var(--gray-0);
     border: none;
+
+    .dark & {
+      background-color: var(--gray-8);
+      color: var(--gray-0);
+    }
   `;
 
   const list = css`
@@ -36,6 +44,10 @@ const SearchInput: FC = () => {
     overflow: auto;
     max-height: var(--size-15);
     border-radius: var(--radius-2);
+
+    .dark & {
+      background-color: var(--gray-8);
+    }
   `;
 
   return (
@@ -43,7 +55,7 @@ const SearchInput: FC = () => {
       <label class={label}>
         <img
           class={searchIcon}
-          src="/assets/images/light-mode-search-icon.svg"
+          x-bind:src="light ? '/assets/images/light-mode-search-icon.svg' : '/assets/images/dark-mode-search-icon.svg'"
           alt=""
         />
         <input

@@ -11,7 +11,7 @@ export const Layout = jsxRenderer(({ children }) => {
       }
 
       html.dark {
-        background-color: #2b3743;
+        background-color: var(--gray-10);
       }
     }
   `;
