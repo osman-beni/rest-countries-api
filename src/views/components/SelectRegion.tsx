@@ -1,6 +1,6 @@
 import type { FC } from "hono/jsx";
 import { css } from "hono/css";
-const SelectRegion: FC<{ selectedRegion: string }> = ({ selectedRegion }) => {
+const SelectRegion: FC<{ region: string | undefined }> = ({ region }) => {
   return (
     <select
       name="q"
@@ -10,19 +10,19 @@ const SelectRegion: FC<{ selectedRegion: string }> = ({ selectedRegion }) => {
       hx-push-url="true"
     >
       <option value="">All region</option>
-      <option value="africa" selected={selectedRegion.includes("africa")}>
+      <option value="africa" selected={region === "africa"}>
         Africa
       </option>
-      <option value="americas" selected={selectedRegion.includes("america")}>
+      <option value="americas" selected={region === "americas"}>
         America
       </option>
-      <option value="oceania" selected={selectedRegion.includes("oceania")}>
+      <option value="oceania" selected={region === "oceania"}>
         Oceania
       </option>
-      <option value="europe" selected={selectedRegion.includes("europe")}>
+      <option value="europe" selected={region === "europe"}>
         Europe
       </option>
-      <option value="asia" selected={selectedRegion.includes("asia")}>
+      <option value="asia" selected={region === "asia"}>
         Asia
       </option>
     </select>

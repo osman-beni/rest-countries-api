@@ -6,22 +6,60 @@ import { Header } from "../../views/layout/header";
 import { CountryDetail } from "../../pages/Country";
 import data from "../../../data.json";
 import SelectRegion from "../../views/components/SelectRegion";
+import SearchInput from "../../views/components/SearchInput";
 
 const countries = new Hono();
 
 countries.get("/", (c) => {
-  const link = c.req.url;
-  const region = c.req.query("q");
+  const region = c.req.query("q") || "";
+
   const filteredList = data.filter((country) =>
-    region ? region.toLowerCase() == country.region.toLowerCase() : true,
+    region !== "" ? region.toLowerCase() == country.region.toLowerCase() : true,
   );
 
-  const places = filteredList.map((d) => <li>{d.name}</li>);
+  const places = filteredList.map((d) => <li>{d.name}</li>).slice(0, 29);
 
   return c.render(
     <>
-      <SelectRegion selectedRegion={link} />
+      <SearchInput />
+      <SelectRegion region={region} />
       {places}
+      {region !== "oceania" && (
+        <button
+          hx-get={`/${region === "" ? "all" : region}/2`}
+          hx-swap="outerHTML"
+        >
+          Load More
+        </button>
+      )}
+    </>,
+  );
+});
+
+countries.get("/:region/:page", (c) => {
+  const { region } = c.req.param();
+  const page = parseInt(c.req.param("page"));
+  const perPage = 30;
+  const start = (page - 1) * perPage;
+  const end = page * perPage;
+
+  const filteredList = data.filter((country) =>
+    region !== "all"
+      ? region.toLowerCase() == country.region.toLowerCase()
+      : true,
+  );
+
+  const slice = filteredList.slice(start, end);
+  const areThereCountries = slice.length !== 0;
+  const places = slice.map((country) => <li>{country.name}</li>);
+  return c.html(
+    <>
+      {places}
+      {areThereCountries && (
+        <button hx-get={`/${region}/${page + 1}`} hx-swap="outerHTML">
+          Load More
+        </button>
+      )}
     </>,
   );
 });
