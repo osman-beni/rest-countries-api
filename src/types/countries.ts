@@ -1,4 +1,4 @@
-export default interface RootObject {
+export interface CountryI {
   name: string;
   topLevelDomain: string[];
   alpha2Code: string;

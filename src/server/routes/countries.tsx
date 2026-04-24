@@ -1,37 +1,36 @@
 import { Hono } from "hono";
-import Country from "../../views/components/Country";
-import { Home } from "../../views/pages/home";
-import { BorderCountryPill } from "../../views/components/BorderTownPill";
-import { Header } from "../../views/layout/header";
-import { CountryDetail } from "../../pages/Country";
 import data from "../../../data.json";
 import SelectRegion from "../../views/components/SelectRegion";
-import SearchInput from "../../views/components/SearchInput";
+import CardsContainer from "../../views/layout/CardsContainer";
+import Country from "../../views/components/Country";
 
 const countries = new Hono();
 
 countries.get("/", (c) => {
   const region = c.req.query("q") || "";
 
-  const filteredList = data.filter((country) =>
-    region !== "" ? region.toLowerCase() == country.region.toLowerCase() : true,
-  );
-
-  const places = filteredList.map((d) => <li>{d.name}</li>).slice(0, 29);
+  const filteredList = data
+    .filter((country) =>
+      region !== ""
+        ? region.toLowerCase() == country.region.toLowerCase()
+        : true,
+    )
+    .slice(0, 29);
 
   return c.render(
     <>
-      <SearchInput />
       <SelectRegion region={region} />
-      {places}
-      {region !== "oceania" && (
-        <button
-          hx-get={`/${region === "" ? "all" : region}/2`}
-          hx-swap="outerHTML"
-        >
-          Load More
-        </button>
-      )}
+      <CardsContainer countries={filteredList} />
+
+      <button
+        id="button"
+        hx-target="#cards-container"
+        hx-get={`/${region === "" ? "all" : region}/2`}
+        hx-swap="beforeend"
+        hx-trigger="revealed"
+      >
+        Load More
+      </button>
     </>,
   );
 });
@@ -49,14 +48,22 @@ countries.get("/:region/:page", (c) => {
       : true,
   );
 
-  const slice = filteredList.slice(start, end);
-  const areThereCountries = slice.length !== 0;
-  const places = slice.map((country) => <li>{country.name}</li>);
+  const countriesSlice = filteredList.slice(start, end);
+  const areThereCountries = filteredList.slice(start).length > 30;
   return c.html(
     <>
-      {places}
+      {countriesSlice.map((country) => (
+        <Country country={country} />
+      ))}
       {areThereCountries && (
-        <button hx-get={`/${region}/${page + 1}`} hx-swap="outerHTML">
+        <button
+          id="button"
+          hx-swap-oob="outerHTML"
+          hx-get={`/${region}/${page + 1}`}
+          hx-swap="beforeend"
+          hx-target="#cards-container"
+          hx-trigger="revealed"
+        >
           Load More
         </button>
       )}
