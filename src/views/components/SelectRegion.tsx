@@ -1,4 +1,4 @@
-import type { FC } from "hono/jsx";
+import { type FC } from "hono/jsx";
 import { css } from "hono/css";
 const SelectRegion: FC<{ region: string | undefined }> = ({ region }) => {
   return (

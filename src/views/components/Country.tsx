@@ -10,23 +10,22 @@ const Country: FC<{ country: CountryI }> = ({ country }) => {
   `;
 
   const card = css`
-    background-color: var(--gray-0);
-    box-shadow: var(--shadow-2);
-    padding: var(--size-3);
+    height: 100%;
     border-radius: var(--radius-2);
-
-    > * {
-      margin: 0;
-    }
-
-    > * + * {
-      margin-top: var(--size-3);
-    }
+    overflow: hidden;
   `;
+
+  const imgContainer = css`
+    padding: 0;
+  `;
+
   const formattedPopulation = country.population.toLocaleString("en-US");
   return (
-    <a class={anchor} href={"/" + country.alpha3Code} hx-swap="innerHTML">
+    <a class={anchor} href={"/" + country.alpha3Code}>
       <article class={card}>
+        <header class={imgContainer}>
+          {/*<img src={country.flags.svg}/>*/}
+        </header>
         <h2>{country.name}</h2>
         <p>
           <strong>Population:</strong> <span>{formattedPopulation}</span>

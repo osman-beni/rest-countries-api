@@ -3,23 +3,16 @@ import { css } from "hono/css";
 
 const ThemeToggle: FC = () => {
   const button = css`
-    border: none;
     display: flex;
     cursor: pointer;
-    background-color: transparent;
-    font-size: var(--font-size-1);
-
-    html.dark & {
-      color: var(--gray-0);
-    }
   `;
   return (
-    <button x-on:click="toggle" class={button}>
+    <button x-on:click="toggle" class={button} x-bind:class="true && 'contrast'">
       <img
-        x-bind:src="light ? '/assets/images/light-mode-moon-icon.svg' : '/assets/images/dark-mode-moon-icon.svg'"
+        x-bind:src="!light ? '/assets/images/light-mode-moon-icon.svg' : '/assets/images/dark-mode-moon-icon.svg'"
         alt=""
       />
-      <span x-text="light ? 'Dark Mode' : 'Light Mode'"></span>
+      {/*<span x-text="light ? 'Dark Mode' : 'Light Mode'"></span>*/}
     </button>
   );
 };
