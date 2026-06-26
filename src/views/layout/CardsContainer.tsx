@@ -3,14 +3,25 @@ import { css } from "hono/css";
 import { CountryI } from "../../types/countries";
 import Country from "../components/Country";
 
-export const container = css`
+export const gridContainer = css`
   display: grid;
-  gap: var(--size-3);
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: var(--size-5);
+  margin-top: var(--size-5);
+
+  @media screen and (width >= 576px) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  @media screen and (width >= 1024px) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 `;
-const CardsContainer: FC<{ countries: CountryI[] }> = ({ countries }) => {
+const CardsContainer: FC<{ countries: CountryI[]; [key: string]: any }> = ({
+  countries,
+  ...delegated
+}) => {
   return (
-    <div class={container} id="cards-container">
+    <div class={gridContainer} id="cards-container" {...delegated}>
       {countries.map((country) => (
         <Country country={country} />
       ))}
