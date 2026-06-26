@@ -1,11 +1,12 @@
 import { Hono } from "hono";
 import data from "../../../data.json";
-import SearchListItem from "../../views/components/SearchListItem";
 import SearchNoneItems from "../../views/components/SearchNoneItems";
+import CardsContainer from "../../views/layout/CardsContainer";
 
 const search = new Hono();
 
 search.get("/", (c) => {
+  Bun.sleep(5000);
   // 1. Get the query string value for 'q'
   const query = c.req.query("q") || "";
 
@@ -23,10 +24,8 @@ search.get("/", (c) => {
     return c.html(<SearchNoneItems />);
   }
 
-  const htmlList = results.map((country) => (
-    <SearchListItem alpha3Code={country.alpha3Code} name={country.name} />
-  ));
-  return c.html(<>{htmlList}</>);
+
+  return c.html(<CardsContainer countries={results} />);
 });
 
 export default search;
