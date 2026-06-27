@@ -2,13 +2,7 @@ import { type FC } from "hono/jsx";
 import { css } from "hono/css";
 const SelectRegion: FC<{ region: string | undefined }> = ({ region }) => {
   return (
-    <select
-      name="q"
-      hx-get="/"
-      hx-target="body"
-      hx-swap="innerHTML"
-      hx-push-url="true"
-    >
+    <select name="region">
       <option value="">All region</option>
       <option value="africa" selected={region === "africa"}>
         Africa
