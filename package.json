@@ -11,7 +11,7 @@
   },
   "scripts": {
     "dev": "bun run --hot src/server/server.tsx",
-    "start": "bun src/server/server.tsx"
+    "start": "bun run src/server/server.tsx"
   },
   "dependencies": {
     "@yusifaliyevpro/countries": "^2.3.0",
