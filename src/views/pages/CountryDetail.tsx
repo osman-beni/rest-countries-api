@@ -10,7 +10,17 @@ export const CountryDetail: FC<{ country: CountryI }> = (props) => {
       <main class="main">
         <section>
           <div class="grid">
-            {/*<img src={props.country.flags.svg} />*/}
+            <div>
+              <img src={props.country.flags.svg} />
+              {props.country.latlng && (
+                <a
+                  target={"_blank"}
+                  href={`https://www.google.com/maps?q=${props.country.latlng[0]},${props.country.latlng[1]}`}
+                >
+                  View on google
+                </a>
+              )}
+            </div>
 
             <div>
               <h2>{props.country.name}</h2>

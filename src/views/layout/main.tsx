@@ -23,15 +23,14 @@ export const Layout = jsxRenderer(({ children }) => {
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <script src="/scripts/htmx.min.js"></script>
+        <link rel="stylesheet" href="/css/styles.css" />
         <link rel="stylesheet" href="/css/open-props.min.css" />
         <link rel="stylesheet" href="/css/pico.min.css" />
-        <link rel="stylesheet" href="/css/styles.css" />
-        <title>Countries</title>
         <Style />
+        <title>Countries</title>
       </head>
       <body class={globalClass}>
         <main class="container">{children}</main>
-        <script src="/scripts/theme.js"></script>
       </body>
     </html>
   );

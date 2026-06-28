@@ -24,7 +24,7 @@ const Country: FC<{ country: CountryI }> = ({ country }) => {
     <a class={anchor} href={"/" + country.alpha3Code}>
       <article class={card}>
         <header class={imgContainer}>
-          {/*<img src={country.flags.svg}/>*/}
+          <img src={country.flags.svg} />
         </header>
         <h2>{country.name}</h2>
         <p>
