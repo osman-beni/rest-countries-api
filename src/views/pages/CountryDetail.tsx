@@ -4,6 +4,10 @@ import { Header } from "../layout/header";
 import data from "../../../data";
 
 export const CountryDetail: FC<{ country: CountryI }> = (props) => {
+  if (!props.country) {
+    return <div aria-busy="true">Loading country data...</div>;
+  }
+
   return (
     <>
       <Header />
