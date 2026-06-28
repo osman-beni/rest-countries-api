@@ -6,7 +6,6 @@ import CardsContainer from "../../views/layout/CardsContainer";
 const search = new Hono();
 
 search.get("/", (c) => {
-  Bun.sleep(5000);
   // 1. Get the query string value for 'q'
   const query = c.req.query("q") || "";
 
@@ -23,7 +22,6 @@ search.get("/", (c) => {
   if (results.length === 0) {
     return c.html(<SearchNoneItems />);
   }
-
 
   return c.html(<CardsContainer countries={results} />);
 });

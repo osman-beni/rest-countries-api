@@ -7,14 +7,14 @@ import { Fragment } from "hono/jsx/jsx-runtime";
 export const Layout = jsxRenderer(({ children }) => {
   const globalClass = css`
     :-hono-global {
-      html {
+      /*html {
         font-family: "Nunito Sans";
       }
 
       h1,
       h2 {
         font-family: "Nunito Sans";
-      }
+      }*/
     }
   `;
   return (
